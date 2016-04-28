@@ -104,6 +104,11 @@ class Mocker implements Aspect {
             $params = $this->getClassMethodStubParams($obj, $method);
             if ($params !== false) return $this->stub($invocation, $params);
 
+            // inheritance
+            $calledClass = $invocation->getDeclaredClass();
+            $params = $this->getClassMethodStubParams($calledClass, $method);
+            if ($params !== false) return $this->stub($invocation, $params);
+
             // magic static method (facade)
             if ($method == '__callStatic') {
                 $args = $invocation->getArguments();
